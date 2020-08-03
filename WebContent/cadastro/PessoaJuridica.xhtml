@@ -1,0 +1,41 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template/Layout.xhtml">
+
+
+
+
+		<p:tab id="pessoa" title="Pessoa Juridica">
+			<p:panel header="">
+				<p:messages />
+				<h:panelGrid columns="2" columnClasses="label, value">
+
+					<h:outputText value="Cnpj: " />
+					<p:inputText value="#{pessoaBean.pessoa.cnpj}" required="true"
+						label="cnpj" />
+
+					<h:outputText value="Inscrição Estadual: " />
+					<p:inputText value="#{pessoaBean.pessoa.inscricaoEstadual}"
+						label="Inscrição Estadual" />
+
+					<h:outputText value="Razão social: " />
+					<p:inputText value="#{pessoaBean.pessoa.razaoSocial}" />
+
+					<h:outputText value="E-mail: " />
+					<h:inputText value="#{pessoaBean.pessoa.email}" />
+
+					<h:outputText value="Senha: " />
+					<p:password value="#{pessoaBean.pessoa.senha}" />
+
+					<h:outputText value="Confirmar Senha: " />
+					<p:password value="#{pessoaBean.confirmarSenha}" />
+
+				</h:panelGrid>
+			</p:panel>
+		</p:tab>
+
+
+</ui:composition>

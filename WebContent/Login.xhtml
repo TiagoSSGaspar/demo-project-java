@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html  >
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>Login</title>
+	<h:outputStylesheet library="gaspar" name="styles/login.css" />
+
+</h:head>
+
+<h:body>
+
+	<div id="login-dialog">
+		<h1 class="aw-page-title">Login</h1>
+		<h:form id="form-login">
+			<h:panelGrid columns="2" styleClass="grid-login">
+
+				<h:outputLabel value="E-mail" />
+				<p:inputText  />
+
+				<h:outputLabel value="Senha" />
+				<p:password />
+
+				<h:panelGroup/>
+				<h:commandButton value="Login" />
+			</h:panelGrid>
+		</h:form>
+	</div>
+
+</h:body>
+
+</html>
+
