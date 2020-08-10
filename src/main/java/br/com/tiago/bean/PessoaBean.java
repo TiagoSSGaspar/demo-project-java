@@ -1,114 +1,54 @@
 package br.com.tiago.bean;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.faces.bean.SessionScoped;
 
-import br.com.tiago.model.Endereco;
+import br.com.tiago.dao.PessoaDAO;
+import br.com.tiago.model.Pessoa;
+import br.com.tiago.model.PessoaFisica;
 import br.com.tiago.model.PessoaJuridica;
-import br.com.tiago.model.Telefone;
 
 @ManagedBean(name = "pessoaBean")
-@ViewScoped
-public class PessoaBean implements Serializable {
+@SessionScoped
+public class PessoaBean extends CrudBean<Pessoa, PessoaDAO> implements Serializable  {
 
 	private static final long serialVersionUID = -7014495115804296554L;
 
-	// private PessoaFisica pessoa = new PessoaFisica();
-	private PessoaJuridica pessoa = new PessoaJuridica();
-	private Endereco endereco = new Endereco();
-	private Telefone telefone = new Telefone();
-	private boolean ehPj;
-	private String confirmarSenha;
-	private List<Endereco> listaEnderecos = new ArrayList<Endereco>();
-	List<Telefone> listaTelefones = new ArrayList<Telefone>();
-	private String nomesEstados[] = { "Acre", "Alagoas", "Amapá", "Amazonas", "Bahia", "Ceará", "Distrito Federal",
-			"Espírito Santo", "Goiás", "Maranhão", "Mato Grosso", "Mato Grosso do Sul", "Minas Gerais", "Pará",
-			"Paraíba", "Paraná", "Pernambuco", "Piauí", "Rio de Janeiro", "Rio Grande do Norte", "Rio Grande do Sul",
-			"Rondônia", "Roraima", "Santa Catarina", "São Paulo", "Sergipe", "Tocantins" };
-
-	public String salvar() {
-
-		listaEnderecos.add(endereco);
-		pessoa.setEnderecos(listaEnderecos);
-		listaTelefones.add(telefone);
-
-		return "";
+	private PessoaDAO pessoaDAO;
+	private boolean isPj;
+	
+	
+	@Override
+	public PessoaDAO getDao() { 
+		if (pessoaDAO == null) {
+			pessoaDAO = new PessoaDAO();
+		}
+		return pessoaDAO;
 	}
 
-	public void addEndereco() {
-		listaEnderecos.add(endereco);
+	
+	@Override
+	public Pessoa criarNovaEntidade() {
+		
+		if (isPj) {
+			return new PessoaJuridica();
+		} else {
+			return new PessoaFisica();
+		}	
+		
+	}
+	
+	
+
+	public boolean isPj() {
+		return isPj;
 	}
 
-	public void addTelefone() {
-		listaTelefones.add(telefone);
+	public void setPj(boolean isPj) {
+		this.isPj = isPj;
 	}
-
-	public List<Endereco> getListaEnderecos() {
-		return listaEnderecos;
-	}
-
-	public void setListaEnderecos(List<Endereco> listaEnderecos) {
-		this.listaEnderecos = listaEnderecos;
-	}
-
-	public List<Telefone> getListaTelefones() {
-		return listaTelefones;
-	}
-
-	public void setListaTelefones(List<Telefone> listaTelefones) {
-		this.listaTelefones = listaTelefones;
-	}
-
-	public PessoaJuridica getPessoa() {
-		return pessoa;
-	}
-
-	public void setPessoa(PessoaJuridica pessoa) {
-		this.pessoa = pessoa;
-	}
-
-	public String[] getNomesEstados() {
-		return nomesEstados;
-	}
-
-	public void setNomesEstados(String nomesEstados[]) {
-		this.nomesEstados = nomesEstados;
-	}
-
-	public Endereco getEndereco() {
-		return endereco;
-	}
-
-	public void setEndereco(Endereco endereco) {
-		this.endereco = endereco;
-	}
-
-	public boolean isEhPj() {
-		return ehPj;
-	}
-
-	public void setEhPj(boolean ehPj) {
-		this.ehPj = ehPj;
-	}
-
-	public String getConfirmarSenha() {
-		return confirmarSenha;
-	}
-
-	public void setConfirmarSenha(String confirmarSenha) {
-		this.confirmarSenha = confirmarSenha;
-	}
-
-	public Telefone getTelefone() {
-		return telefone;
-	}
-
-	public void setTelefone(Telefone telefone) {
-		this.telefone = telefone;
-	}
+	
 
 }

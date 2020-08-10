@@ -4,13 +4,141 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui"
 	template="/WEB-INF/template/Layout.xhtml">
-	
+
 	<ui:define name="content">
-		<h1 class="aw-page-title">Título da sua página</h1>
-		
-		<h:form id="frm">
-			Conteúdo do formulário
+		<h1>Teste</h1>
+
+		<h:form>
+
+			<p:messages id="msg" closable="true">
+				<p:autoUpdate />
+			</p:messages>
+
+			<p:fieldset>
+
+				<p:toolbar>
+
+					<f:facet name="left">
+						<p:commandButton value="Novo" action="#{pessoaBean.novo}"
+							update="@form" styleClass="mg-left-10px" />
+
+						<p:commandButton update="@form" value="Salvar"
+							disabled="#{pessoaBean.busca == true}" icon="pi pi-save"
+							action="#{pessoaBean.salvar()}" styleClass="mg-left-10px" />
+
+
+						<p:commandButton update="@form" value="Buscar" icon="pi pi-save"
+							action="#{pessoaBean.buscar()}" styleClass="mg-left-10px" />
+
+						<p:selectBooleanCheckbox id="isPJ" value="#{pessoaBean.pj}"
+							styleClass="mg-left-10px" itemLabel="Pessoa Jurídica">
+							<p:ajax update="@form" />
+						</p:selectBooleanCheckbox>
+
+					</f:facet>
+
+				</p:toolbar>
+
+				<p:tab rendered="#{pessoaBean.busca == false}">
+					<p:panel header="Dados pessoais">
+						<h:panelGrid id="dadosPF" columns="2" columnClasses="label, value">
+
+							
+							<h:outputText value="Id: " rendered="#{pessoaBean.edita}"/>
+							<p:inputText value="#{pessoaBean.entidade.id}" label="nome"
+								required="true" readonly="true"  rendered="#{pessoaBean.edita}"/>
+							
+							<h:outputText value="Nome completo: " />
+							<p:inputText value="#{pessoaBean.entidade.nome}" label="nome"
+								required="true" />
+
+							<h:outputText value="Cpf: " />
+							<p:inputText value="#{pessoaBean.entidade.cpf}" label="cpf"
+								required="true" />
+
+							<h:outputText value="Rg: " />
+							<p:inputText value="#{pessoaBean.entidade.rg}" required="true"
+								label="Rg" />
+
+							<h:outputText value="E-mail: " />
+							<h:inputText value="#{pessoaBean.entidade.email}" required="true"
+								label="E-mail" />
+
+							<h:outputText value="Senha: "
+								rendered="#{pessoaBean.edita == false}" />
+							<p:password value="#{pessoaBean.entidade.senha}" required="true"
+								label="Senha" rendered="#{!pessoaBean.edita}" />
+
+							<h:outputText value="Confirmar Senha: "
+								rendered="#{!pessoaBean.edita}" />
+							<p:password value="#{pessoaBean.confirmarSenha}" required="true"
+								label="Confirmar Senha" rendered="#{!pessoaBean.edita}" />
+
+
+						</h:panelGrid>
+					</p:panel>
+				</p:tab>
+				<p:tab rendered="#{pessoaBean.busca == true}">
+					<p:panel>
+						<p:dataTable id="tbl" var="p"
+							value="#{pessoaBean.listaEntidades}"
+							paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}"
+							paginator="true" rows="10" style="margin-bottom:20px">
+
+
+							<p:column>
+								<f:facet name="header">
+									<h:outputText value="Id" />
+								</f:facet>
+								<h:outputText value="#{p.id}" />
+							</p:column>
+
+							<p:column>
+								<f:facet name="header">
+									<h:outputText value="Nome" />
+								</f:facet>
+								<h:outputText value="#{p.nome}" />
+							</p:column>
+							
+							<p:column style="height: auto;width: 200px;;">
+								<f:facet name="header">
+									<h:outputText value="Email" />
+								</f:facet>
+								<h:outputText value="#{p.email}" />
+							</p:column>
+
+							<p:column>
+								<f:facet name="header">
+									<h:outputText value="Cpf" />
+								</f:facet>
+								<h:outputText value="#{p.cpf}" />
+							</p:column>
+
+							<p:column>
+								<f:facet name="header">
+									<h:outputText value="Rg" />
+								</f:facet>
+								<h:outputText value="#{p.rg}" />
+							</p:column>
+
+							<p:column>
+								<p:commandButton update="@form"
+									action="#{pessoaBean.deletar(p)}" value="D">
+									<f:setPropertyActionListener value="#{p}" target="#{pessoaBean.entidade}"></f:setPropertyActionListener>
+								</p:commandButton>
+								<p:commandButton update="@form"
+									action="#{pessoaBean.editar(p)}" value="E" />
+							</p:column>
+
+
+						</p:dataTable>
+					</p:panel>
+				</p:tab>
+
+			</p:fieldset>
+
+
 		</h:form>
 	</ui:define>
-	
+
 </ui:composition>

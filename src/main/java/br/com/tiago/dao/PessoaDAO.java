@@ -6,47 +6,89 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 
 import br.com.tiago.model.Pessoa;
+import br.com.tiago.util.ErroSistema;
 import br.com.tiago.util.JPAUtil;
 
-public class PessoaDAO implements PessoaIDAO {
+public class PessoaDAO implements CrudIDAO<Pessoa> {
 
 	private EntityManager manager;
 	private EntityTransaction transaction;
 	
+
 	@Override
 	public void salvar(Pessoa pessoa) {
+		this.manager = JPAUtil.getEntityManager();
+		this.transaction = this.manager.getTransaction();
+		this.transaction.begin();
+
+		this.manager.merge(pessoa);
+
+		this.transaction.commit();
+		this.manager.close();
+
+	}
+
+	
+	public boolean findEmail(Pessoa pessoa) {
 		
 		this.manager = JPAUtil.getEntityManager();
 		this.transaction = this.manager.getTransaction();
 		this.transaction.begin();
-		this.manager.persist(pessoa);
+
+
+		try {
+			
+			return this.manager.createNamedQuery("findEmail", Pessoa.class).
+					setParameter("email", pessoa.getEmail()).getSingleResult() != null;
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+
+	}
+
+	@Override
+	public void deletar(Pessoa pessoa) {
+		this.manager = JPAUtil.getEntityManager();
+		this.transaction = this.manager.getTransaction();
+		this.transaction.begin();
+
+		 Object id = JPAUtil.getPKey(pessoa);
+
+		 this.manager.createQuery("delete from " + pessoa.getClass().getName() + 
+		 " where id = " + id).executeUpdate();
+
+		//this.manager.remove(pessoa);
 		this.transaction.commit();
 		this.manager.close();
-		
+
 	}
+
+	/*
+	 * public void atualizar(Pessoa pessoa) throws ErroSistema { this.manager =
+	 * JPAUtil.getEntityManager(); this.transaction = this.manager.getTransaction();
+	 * this.transaction.begin();
+	 * 
+	 * this.manager.merge(pessoa);
+	 * 
+	 * this.transaction.commit(); this.manager.close();
+	 * 
+	 * }
+	 */
 
 	@Override
-	public void excluir(Pessoa pessoa) {
-		
-		
+	public List<Pessoa> buscar() throws ErroSistema {
+		this.manager = JPAUtil.getEntityManager();
+		this.transaction = this.manager.getTransaction();
+		this.transaction.begin();
+
+		List<Pessoa> list = this.manager.createQuery("SELECT c FROM Pessoa c", Pessoa.class).getResultList();
+
+		this.transaction.commit();
+		this.manager.close();
+
+		return list;
 	}
 
-	@Override
-	public void atualizar(Pessoa pessoa) {
-		
-		
-	}
-
-	@Override
-	public List<Pessoa> listar() {
-
-		return null;
-	}
-
-	@Override
-	public Pessoa buscar(Long id) {
-
-		return null;
-	}
-	
 }

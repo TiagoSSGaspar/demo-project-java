@@ -11,28 +11,42 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 
 @Entity
+@Inheritance(strategy = InheritanceType.JOINED)
+@NamedQuery(name = "findEmail", query = "Select p from Pessoa p where p.email = :email")
 public abstract class Pessoa implements Serializable{
 	
 	private static final long serialVersionUID = 5691619982422661889L;
 	
 	@Id
+	@SequenceGenerator(initialValue = 1, allocationSize = 1,name = "generator_pessoa_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String nome;
 	private String senha;
 	@Column(unique = true)
-	private String email;
-	@OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY, mappedBy = "pessoa")
+	private String email;	
+	@OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY, mappedBy = "pessoa", targetEntity = Telefone.class)
 	private List<Telefone> telefones = new ArrayList<Telefone>();
 	@OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY, mappedBy = "pessoa")
 	private List<Endereco> enderecos = new ArrayList<Endereco>();
 	
-	public Pessoa() {
+	
+	public boolean checkSenha(String senha) {
 		
+		if (this.senha.equals(senha)) {
+			return true;
+		}
+		
+		return false;
 	}
+	
 	
 	public Long getId() {
 		return id;
