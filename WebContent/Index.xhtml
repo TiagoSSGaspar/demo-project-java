@@ -6,7 +6,12 @@
 	template="/WEB-INF/template/Layout.xhtml">
 
 	<ui:define name="content">
-		<h1>Teste</h1>
+
+
+		<h:outputStylesheet name="primeicons/primeicons.css"
+			library="primefaces" />
+
+		<h1>Cadastro de Pessoa</h1>
 
 		<h:form>
 
@@ -23,16 +28,18 @@
 							update="@form" styleClass="mg-left-10px" />
 
 						<p:commandButton update="@form" value="Salvar"
-							disabled="#{pessoaBean.busca == true}" icon="pi pi-save"
+							disabled="#{pessoaBean.busca == true}" icon="pi pi-save "
 							action="#{pessoaBean.salvar()}" styleClass="mg-left-10px" />
 
 
-						<p:commandButton update="@form" value="Buscar" icon="pi pi-save"
+						<p:commandButton update="@form" value="Buscar"
+							icon="pi pi-refresh" process="@this"
 							action="#{pessoaBean.buscar()}" styleClass="mg-left-10px" />
 
 						<p:selectBooleanCheckbox id="isPJ" value="#{pessoaBean.pj}"
 							styleClass="mg-left-10px" itemLabel="Pessoa Jurídica">
-							<p:ajax update="@form" />
+							<p:ajax update="@form" event="change" process="@this"
+								listener="#{pessoaBean.novo}" />
 						</p:selectBooleanCheckbox>
 
 					</f:facet>
@@ -41,13 +48,14 @@
 
 				<p:tab rendered="#{pessoaBean.busca == false}">
 					<p:panel header="Dados pessoais">
-						<h:panelGrid id="dadosPF" columns="2" columnClasses="label, value">
+						<h:panelGrid rendered="#{pessoaBean.pj == false}" id="dadosPF"
+							columns="2" columnClasses="label, value">
 
-							
-							<h:outputText value="Id: " rendered="#{pessoaBean.edita}"/>
+
+							<h:outputText value="Id: " rendered="#{pessoaBean.edita}" />
 							<p:inputText value="#{pessoaBean.entidade.id}" label="nome"
-								required="true" readonly="true"  rendered="#{pessoaBean.edita}"/>
-							
+								required="true" readonly="true" rendered="#{pessoaBean.edita}" />
+
 							<h:outputText value="Nome completo: " />
 							<p:inputText value="#{pessoaBean.entidade.nome}" label="nome"
 								required="true" />
@@ -76,12 +84,52 @@
 
 
 						</h:panelGrid>
+
+						<h:panelGrid rendered="#{pessoaBean.pj == true}" id="dadosPj"
+							columns="2" columnClasses="label, value">
+
+
+							<h:outputText value="Id: " rendered="#{pessoaBean.edita}" />
+							<p:inputText value="#{pessoaBean.entidade.id}" label="nome"
+								required="true" readonly="true" rendered="#{pessoaBean.edita}" />
+
+							<h:outputText value="CNJP: " />
+							<p:inputText value="#{pessoaBean.entidade.cnpj}" label="nome"
+								required="true" />
+
+							<h:outputText value="Inscricao Estadual: " />
+							<p:inputText value="#{pessoaBean.entidade.inscricaoEstadual}"
+								label="cpf" required="true" />
+
+							<h:outputText value="Razão Social: " />
+							<p:inputText value="#{pessoaBean.entidade.razaoSocial}"
+								required="true" label="Rg" />
+
+							<h:outputText value="E-mail: " />
+							<h:inputText value="#{pessoaBean.entidade.email}" required="true"
+								label="E-mail" />
+
+							<h:outputText value="Senha: "
+								rendered="#{pessoaBean.edita == false}" />
+							<p:password value="#{pessoaBean.entidade.senha}" required="true"
+								label="Senha" rendered="#{!pessoaBean.edita}" />
+
+							<h:outputText value="Confirmar Senha: "
+								rendered="#{!pessoaBean.edita}" />
+							<p:password value="#{pessoaBean.confirmarSenha}" required="true"
+								label="Confirmar Senha" rendered="#{!pessoaBean.edita}" />
+
+
+						</h:panelGrid>
+
+
 					</p:panel>
 				</p:tab>
+
+
 				<p:tab rendered="#{pessoaBean.busca == true}">
 					<p:panel>
-						<p:dataTable id="tbl" var="p"
-							value="#{pessoaBean.listaEntidades}"
+						<p:dataTable id="tbl" var="p" value="#{pessoaBean.listaEntidades}"
 							paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}"
 							paginator="true" rows="10" style="margin-bottom:20px">
 
@@ -89,6 +137,7 @@
 							<p:column>
 								<f:facet name="header">
 									<h:outputText value="Id" />
+									<i class="pi pi-key"></i>
 								</f:facet>
 								<h:outputText value="#{p.id}" />
 							</p:column>
@@ -99,7 +148,7 @@
 								</f:facet>
 								<h:outputText value="#{p.nome}" />
 							</p:column>
-							
+
 							<p:column style="height: auto;width: 200px;;">
 								<f:facet name="header">
 									<h:outputText value="Email" />
@@ -123,11 +172,13 @@
 
 							<p:column>
 								<p:commandButton update="@form"
-									action="#{pessoaBean.deletar(p)}" value="D">
-									<f:setPropertyActionListener value="#{p}" target="#{pessoaBean.entidade}"></f:setPropertyActionListener>
+									action="#{pessoaBean.deletar(p)}" icon="pi pi-trash">
+									<f:setPropertyActionListener value="#{p}"
+										target="#{pessoaBean.entidade}"></f:setPropertyActionListener>
 								</p:commandButton>
-								<p:commandButton update="@form"
-									action="#{pessoaBean.editar(p)}" value="E" />
+								<p:commandButton update="@form" action="#{pessoaBean.editar(p)}"
+									icon="pi pi-pencil" />
+
 							</p:column>
 
 
