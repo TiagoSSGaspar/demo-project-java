@@ -59,6 +59,7 @@ public abstract class CrudBean<E, D extends CrudIDAO> {
 		try {
 			getDao().deletar(entidade);
 			addMensangem("Deletado com sucesso!", FacesMessage.SEVERITY_INFO);
+			this.buscar();
 		} catch (ErroSistema e) {
 			Logger.getLogger(e.getClass()).log(Level.SEVERE, null, e);
 			addMensangem(e.getMessage(), FacesMessage.SEVERITY_ERROR);

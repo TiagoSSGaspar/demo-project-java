@@ -38,8 +38,12 @@ public class PessoaDAO implements CrudIDAO<Pessoa> {
 
 		try {
 			
-			return this.manager.createNamedQuery("findEmail", Pessoa.class).
-					setParameter("email", pessoa.getEmail()).getSingleResult() != null;
+			Pessoa emailPessoa = this.manager.createNamedQuery("findEmail", Pessoa.class).
+					setParameter("email", pessoa.getEmail()).getSingleResult();
+			
+			if (emailPessoa.getEmail().equals(pessoa.getEmail())) {
+				return true;
+			}
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -58,24 +62,12 @@ public class PessoaDAO implements CrudIDAO<Pessoa> {
 
 		 this.manager.createQuery("delete from " + pessoa.getClass().getName() + 
 		 " where id = " + id).executeUpdate();
-
-		//this.manager.remove(pessoa);
+		 
 		this.transaction.commit();
 		this.manager.close();
-
+		
 	}
 
-	/*
-	 * public void atualizar(Pessoa pessoa) throws ErroSistema { this.manager =
-	 * JPAUtil.getEntityManager(); this.transaction = this.manager.getTransaction();
-	 * this.transaction.begin();
-	 * 
-	 * this.manager.merge(pessoa);
-	 * 
-	 * this.transaction.commit(); this.manager.close();
-	 * 
-	 * }
-	 */
 
 	@Override
 	public List<Pessoa> buscar() throws ErroSistema {
