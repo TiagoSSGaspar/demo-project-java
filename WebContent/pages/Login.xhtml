@@ -22,13 +22,13 @@
 			<h:panelGrid columns="2" styleClass="grid-login">
 
 				<h:outputLabel value="E-mail" />
-				<p:inputText  />
+				<p:inputText value="#{loginBean.email}"  />
 
 				<h:outputLabel value="Senha" />
-				<p:password />
+				<p:password value="#{loginBean.senha}"/>
 
 				<h:panelGroup/>
-				<h:commandButton value="Login" />
+				<h:commandButton value="Entrar"  action="#{loginBean.entar}"/>
 			</h:panelGrid>
 		</h:form>
 	</div>

@@ -20,9 +20,14 @@ import javax.persistence.SequenceGenerator;
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @NamedQuery(name = "findEmail", query = "Select p from Pessoa p where p.email = :email")
+@NamedQuery(name = "Pessoa.findByEmailSenha", 
+query = "Select p from Pessoa p where p.email = :email AND p.senha = :senha")
 public abstract class Pessoa implements Serializable{
 	
 	private static final long serialVersionUID = 5691619982422661889L;
+	
+	//@Transient
+	//public static final String FIND_BY_EMAIL_SENHA = "Pessoa.findByEmailSenha";
 	
 	@Id
 	@SequenceGenerator(initialValue = 1, allocationSize = 1,name = "generator_pessoa_id")
@@ -30,6 +35,7 @@ public abstract class Pessoa implements Serializable{
 	private Long id;
 	private String nome;
 	private String senha;
+	private boolean isAdmin;
 	@Column(unique = true)
 	private String email;	
 	@OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY, mappedBy = "pessoa", targetEntity = Telefone.class)
@@ -89,6 +95,15 @@ public abstract class Pessoa implements Serializable{
 		this.email = email;
 	}
 	
+	public boolean isAdmin() {
+		return isAdmin;
+	}
+
+
+	public void setIsAdmin(boolean isAdmin) {
+		this.isAdmin = isAdmin;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -114,11 +129,16 @@ public abstract class Pessoa implements Serializable{
 		return true;
 	}
 
+
 	@Override
 	public String toString() {
-		return "Pessoa [id=" + id + ", nome=" + nome + ", senha=" + senha + ", email=" + email + ", telefones="
-				+ telefones + ", enderecos=" + enderecos + "]";
+		return "Pessoa [id=" + id + ", nome=" + nome + ", senha=" + senha + ", isAdmin=" + isAdmin + ", email=" + email
+				+ ", telefones=" + telefones + ", enderecos=" + enderecos + "]";
 	}
+	
+	
+	
+
 		
 	
 }

@@ -30,7 +30,7 @@ public abstract class CrudBean<E, D extends CrudIDAO> {
 		try {
 
 			if (getDao().findEmail(entidade)) {
-				addMensangem("Email já foi cadastrado!", FacesMessage.SEVERITY_INFO);
+				addMensangem("Email já foi cadastrado!", FacesMessage.SEVERITY_WARN);
 			} else {
 
 				getDao().salvar(entidade);

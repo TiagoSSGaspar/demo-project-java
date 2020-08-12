@@ -13,7 +13,6 @@ public class PessoaDAO implements CrudIDAO<Pessoa> {
 
 	private EntityManager manager;
 	private EntityTransaction transaction;
-	
 
 	@Override
 	public void salvar(Pessoa pessoa) {
@@ -28,28 +27,60 @@ public class PessoaDAO implements CrudIDAO<Pessoa> {
 
 	}
 
-	
 	public boolean findEmail(Pessoa pessoa) {
-		
+
 		this.manager = JPAUtil.getEntityManager();
 		this.transaction = this.manager.getTransaction();
 		this.transaction.begin();
 
-
 		try {
-			
-			Pessoa emailPessoa = this.manager.createNamedQuery("findEmail", Pessoa.class).
-					setParameter("email", pessoa.getEmail()).getSingleResult();
-			
+
+			Pessoa emailPessoa = this.manager.createNamedQuery("findEmail", Pessoa.class)
+					.setParameter("email", pessoa.getEmail()).getSingleResult();
+
 			if (emailPessoa.getEmail().equals(pessoa.getEmail())) {
 				return true;
 			}
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return false;
 
+	}
+
+	public Pessoa procurarEmail(String email) {
+
+		this.manager = JPAUtil.getEntityManager();
+		this.transaction = this.manager.getTransaction();
+		this.transaction.begin();
+
+		Pessoa pessoa;
+		try {
+			pessoa = this.manager.createNamedQuery("findEmail", Pessoa.class).setParameter("email", email)
+					.getSingleResult();
+
+			return pessoa;
+		} catch (Exception e) {
+			return null;
+		}
+	}
+
+	public Pessoa procurarEmailSenha(String email, String senha) {
+
+		this.manager = JPAUtil.getEntityManager();
+		this.transaction = this.manager.getTransaction();
+		this.transaction.begin();
+
+		Pessoa pessoa;
+		try {
+			pessoa = (Pessoa) this.manager.createNamedQuery("Pessoa.findByEmailSenha").
+					setParameter("email", email).setParameter("senha", senha).getSingleResult();
+
+			return pessoa;
+		} catch (Exception e) {
+			return null;
+		}
 	}
 
 	@Override
@@ -58,16 +89,14 @@ public class PessoaDAO implements CrudIDAO<Pessoa> {
 		this.transaction = this.manager.getTransaction();
 		this.transaction.begin();
 
-		 Object id = JPAUtil.getPKey(pessoa);
+		Object id = JPAUtil.getPKey(pessoa);
 
-		 this.manager.createQuery("delete from " + pessoa.getClass().getName() + 
-		 " where id = " + id).executeUpdate();
-		 
+		this.manager.createQuery("delete from " + pessoa.getClass().getName() + " where id = " + id).executeUpdate();
+
 		this.transaction.commit();
 		this.manager.close();
-		
-	}
 
+	}
 
 	@Override
 	public List<Pessoa> buscar() throws ErroSistema {

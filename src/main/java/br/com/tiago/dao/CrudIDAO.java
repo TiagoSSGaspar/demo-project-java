@@ -4,6 +4,7 @@ import java.util.List;
 
 import br.com.tiago.util.ErroSistema;
 
+
 public interface CrudIDAO<E> {
 
 	void salvar(E entidade) throws ErroSistema;
