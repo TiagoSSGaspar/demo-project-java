@@ -17,6 +17,14 @@ public class LoginBean  {
 	private PessoaBean pessoaBean;
 	
 	
+	public PessoaBean getPessoaBean() {
+		return pessoaBean;
+	}
+
+
+	public void setPessoaBean(PessoaBean pessoaBean) {
+		this.pessoaBean = pessoaBean;
+	}
 	private String email;
 	private String senha;
 	

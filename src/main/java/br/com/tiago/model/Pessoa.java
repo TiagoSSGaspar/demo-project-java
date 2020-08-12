@@ -35,7 +35,7 @@ public abstract class Pessoa implements Serializable{
 	private Long id;
 	private String nome;
 	private String senha;
-	private boolean isAdmin;
+	//private boolean isAdmin;
 	@Column(unique = true)
 	private String email;	
 	@OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY, mappedBy = "pessoa", targetEntity = Telefone.class)
@@ -95,14 +95,6 @@ public abstract class Pessoa implements Serializable{
 		this.email = email;
 	}
 	
-	public boolean isAdmin() {
-		return isAdmin;
-	}
-
-
-	public void setIsAdmin(boolean isAdmin) {
-		this.isAdmin = isAdmin;
-	}
 	
 	@Override
 	public int hashCode() {
@@ -132,9 +124,12 @@ public abstract class Pessoa implements Serializable{
 
 	@Override
 	public String toString() {
-		return "Pessoa [id=" + id + ", nome=" + nome + ", senha=" + senha + ", isAdmin=" + isAdmin + ", email=" + email
-				+ ", telefones=" + telefones + ", enderecos=" + enderecos + "]";
+		return "Pessoa [id=" + id + ", nome=" + nome + ", senha=" + senha + ", email=" + email + ", telefones="
+				+ telefones + ", enderecos=" + enderecos + "]";
 	}
+
+
+	
 	
 	
 	
