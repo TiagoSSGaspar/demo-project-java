@@ -64,6 +64,8 @@ public class PessoaDAO implements CrudIDAO<Pessoa> {
 		} catch (Exception e) {
 			return null;
 		}
+		
+		
 	}
 
 	public Pessoa procurarEmailSenha(String email, String senha) {
@@ -106,7 +108,7 @@ public class PessoaDAO implements CrudIDAO<Pessoa> {
 
 		List<Pessoa> list = this.manager.createQuery("SELECT c FROM Pessoa c", Pessoa.class).getResultList();
 
-		this.transaction.commit();
+		//this.transaction.commit();
 		this.manager.close();
 
 		return list;

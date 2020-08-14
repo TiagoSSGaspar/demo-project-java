@@ -5,34 +5,38 @@ import java.io.Serializable;
 import javax.persistence.Entity;
 
 @Entity
-public class PessoaJuridica extends PessoaFisica implements Serializable {
-	
+public class PessoaJuridica extends Pessoa implements Serializable {
+
 	private static final long serialVersionUID = 7772469146611362333L;
-	
-	
+
 	private String cnpj;
 	private String inscricaoEstadual;
 	private String razaoSocial;
-	
+
 	public String getCnpj() {
 		return cnpj;
 	}
+
 	public void setCnpj(String cnpj) {
 		this.cnpj = cnpj;
 	}
+
 	public String getInscricaoEstadual() {
 		return inscricaoEstadual;
 	}
+
 	public void setInscricaoEstadual(String inscricaoEstadual) {
 		this.inscricaoEstadual = inscricaoEstadual;
 	}
+
 	public String getRazaoSocial() {
 		return razaoSocial;
 	}
+
 	public void setRazaoSocial(String razaoSocial) {
 		this.razaoSocial = razaoSocial;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -42,7 +46,7 @@ public class PessoaJuridica extends PessoaFisica implements Serializable {
 		result = prime * result + ((razaoSocial == null) ? 0 : razaoSocial.hashCode());
 		return result;
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -69,12 +73,11 @@ public class PessoaJuridica extends PessoaFisica implements Serializable {
 			return false;
 		return true;
 	}
+
 	@Override
 	public String toString() {
 		return "PessoaJuridica [cnpj=" + cnpj + ", inscricaoEstadual=" + inscricaoEstadual + ", razaoSocial="
 				+ razaoSocial + "]";
 	}
-	
-	
-	
+
 }

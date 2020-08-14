@@ -18,7 +18,7 @@ public class PessoaBean extends CrudBean<Pessoa, PessoaDAO> implements Serializa
 	private static final long serialVersionUID = -7014495115804296554L;
 	public static final String INJETAR_NOME = "#{pessoaBean}";
 	
-	private Pessoa pessoa;
+	private Pessoa user;
 	private PessoaDAO pessoaDAO;
 	private boolean isPj;
 
@@ -44,15 +44,6 @@ public class PessoaBean extends CrudBean<Pessoa, PessoaDAO> implements Serializa
 	}
 	
 	
-	public boolean isAdmin() {
-		return (pessoa.isAdmin()== true)? true: false;
-	}
-	
-	public boolean isUserPadrao() {
-		return false;
-	}
-	
-	
 	public String logOut() {
 		SessionUtils.getSession().invalidate();
 		return "Login";
@@ -68,14 +59,17 @@ public class PessoaBean extends CrudBean<Pessoa, PessoaDAO> implements Serializa
 	}
 
 
-	public Pessoa getPessoa() {
-		return pessoa;
+	public Pessoa getUser() {
+		return user;
 	}
 
 
-	public void setPessoa(Pessoa pessoa) {
-		this.pessoa = pessoa;
+	public void setUser(Pessoa user) {
+		this.user = user;
 	}
+
+
+
 	
 
 }

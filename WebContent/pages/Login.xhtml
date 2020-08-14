@@ -17,18 +17,21 @@
 <h:body>
 
 	<div id="login-dialog">
+
+		<p:growl />
+
 		<h1 class="aw-page-title">Login</h1>
 		<h:form id="form-login">
 			<h:panelGrid columns="2" styleClass="grid-login">
 
 				<h:outputLabel value="E-mail" />
-				<p:inputText value="#{loginBean.email}"  />
+				<p:inputText value="#{loginBean.email}" />
 
 				<h:outputLabel value="Senha" />
-				<p:password value="#{loginBean.senha}"/>
+				<p:password value="#{loginBean.senha}" />
 
-				<h:panelGroup/>
-				<h:commandButton value="Entrar"  action="#{loginBean.entar}"/>
+				<h:panelGroup />
+				<h:commandButton value="Entrar" action="#{loginBean.entar}"/>
 			</h:panelGrid>
 		</h:form>
 	</div>

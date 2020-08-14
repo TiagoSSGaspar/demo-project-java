@@ -10,14 +10,14 @@
 
 		<h:outputStylesheet name="primeicons/primeicons.css"
 			library="primefaces" />
-
+		<h:outputLabel value="Bem vindo! "/> 
+		<h:outputText value="#{pessoaBean.user.nome}"/>
+		<p:commandButton value="Sair" action="#{pessoaBean.logOut}"/>
 		<h1>Cadastro de Pessoa</h1>
 
 		<h:form>
 
-			<p:messages id="msg" closable="true">
-				<p:autoUpdate />
-			</p:messages>
+			<p:growl/>
 
 			<p:fieldset>
 

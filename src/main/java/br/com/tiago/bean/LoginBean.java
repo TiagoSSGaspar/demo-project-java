@@ -45,11 +45,11 @@ public class LoginBean  {
 		Pessoa user = ehValidoLogin(email, senha);
 		
 		if (user != null) {
-			pessoaBean.setPessoa(user);
+			pessoaBean.setUser(user);
 			SessionUtils.getSession().setAttribute("user", user);
 			return "Index";
 		}
-		pessoaBean.addMensangem("Login falho!", FacesMessage.SEVERITY_WARN);
+		pessoaBean.addMensangem("Email/senha Inválido!", FacesMessage.SEVERITY_WARN);
 		return "Login";
 	}
 	
